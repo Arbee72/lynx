@@ -1,0 +1,24 @@
+type LinkType @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  link_type: String!
+  icon: String
+  Links: [Links] @hasMany(indexName: "byLinkType", fields: ["id"])
+}
+
+type Links @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  favicon: String
+  description: String
+  clicks: Int
+  link_url: String!
+  linktypeID: ID! @index(name: "byLinkType")
+  Keywords: [Keywords] @manyToMany(relationName: "KeywordsLinks")
+  title: String
+}
+
+type Keywords @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  keyword: String!
+  linkss: [Links] @manyToMany(relationName: "KeywordsLinks")
+}
+ 
